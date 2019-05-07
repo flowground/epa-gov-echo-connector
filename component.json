@@ -1,0 +1,306 @@
+{
+    "title": "U.S. EPA Enforcement and Compliance History Online (ECHO) - All Data",
+    "description": "Enforcement and Compliance History Online (ECHO) is a tool developed and maintained by EPA's Office of Enforcement and Compliance Assurance for public use. \nECHO provides integrated compliance and enforcement information for about 800,000 regulated facilities nationwide.\n<BR><BR>ECHO Rest Services provide multiple service endpoints, each with specific capabilities, \nto search and retrieve data on facilities regulated as Clean Air Act (CAA) stationary sources, Clean Water Act (CWA) dischargers, \nResource Conservation and Recovery Act (RCRA) hazardous waste generators/handlers, and Safe Drinking Water Act (SDWA) public water systems. Data of interest from other EPA sources, \nsuch as the Toxics Release Inventory, is also supplied for context.\n<BR><BR>\nThe get_facilities, get_map, get_qid, and get_download end points are meant to be used together, while the enhanced get_facility_info end point is self contained.\n  The get_facility_info end point returns either an array of state, county or zip clusters with summary statistics per cluster or an array of facilities.\n<BR><BR>\nThe recommended use scenario for get_facilities, get_qid, get_map, and get_downoad is:\n<br>\n<br><b>1)</b>  Use get_facilities to validate passed query parameters, obtain summary statistics and to obtain a query_id (QID).  QIDs are time sensitive and will be valid for approximately 30 minutes.\n<br><b>2)</b>  Use get_qid, with the returned QID, to paginate through arrays of facility results.\n<br><b>3)</b>  Use get_map, with the returned QID, to zoom in/out and pan on the clustered and individual facility coordinates that meet the QID query criteria.\n<br><b>4)</b>  Use get_download, with the returned QID, to generate a Comma Separated Value (CSV) file of facility information that meets the QID query criteria.\n<br>\n<br>\nUse the qcolumns parameter to customize your search results.  Use the Metdata service endpoint for a list of available output objects, their Column Ids, and their definitions to help you build your customized output. \n<br><br>\nAdditional ECHO Resources:   <a href=\"https://echo.epa.gov/tools/web-services\">Web Services</a>, <a href=\"https://echo.epa.gov/resources/echo-data/about-the-data\">About ECHO's Data</a>, <a href=\"https://echo.epa.gov/tools/data-downloads\">Data Downloads</a>\n<br>",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/epa.gov/echo/1.0.0/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://ofmpub.epa.gov/echo",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "get_echo_rest_services_get_download": {
+            "main": "./lib/actions/get_echo_rest_services_get_download.js",
+            "title": "Combined ECHO Download Data Service",
+            "description": "Based on the QID obtained from a get_facilities or get_facility_info query, return a comma separated value (CSV) file of the facilities found.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_download.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_download": {
+            "main": "./lib/actions/post_echo_rest_services_get_download.js",
+            "title": "Combined ECHO Download Data Service",
+            "description": "Based on the QID obtained from a get_facilities or get_facility_info query, return a comma separated value (CSV) file of the facilities found.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_download.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_get_facilities": {
+            "main": "./lib/actions/get_echo_rest_services_get_facilities.js",
+            "title": "Combined ECHO Facility Search Service",
+            "description": "Validates query search parameters and returns query identifier.  Use the responseset parameter to set the page size",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_facilities.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_facilities": {
+            "main": "./lib/actions/post_echo_rest_services_get_facilities.js",
+            "title": "Combined ECHO Facility Search Service",
+            "description": "Validates query search parameters and returns query identifier.  Use the responseset parameter to set the page size",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_facilities.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_get_facility_info": {
+            "main": "./lib/actions/get_echo_rest_services_get_facility_info.js",
+            "title": "Combined ECHO Facility Enhanced Search Service",
+            "description": "Returns either an array of Facilities or an array of Clusters that meet the specified search criteria.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_facility_info.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_facility_info": {
+            "main": "./lib/actions/post_echo_rest_services_get_facility_info.js",
+            "title": "Combined ECHO Facility Enhanced Search Service",
+            "description": "Returns either an array of Facilities or an array of Clusters that meet the specified search criteria.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_facility_info.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_get_geojson": {
+            "main": "./lib/actions/get_echo_rest_services_get_geojson.js",
+            "title": "Combined ECHO GeoJSON Service",
+            "description": "Based on the QID obtained from a get_facilities or get_facility_info query, return GeoJSON of the facilities found.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_geojson.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_geojson": {
+            "main": "./lib/actions/post_echo_rest_services_get_geojson.js",
+            "title": "Combined ECHO GeoJSON Service",
+            "description": "Based on the QID obtained from a get_facilities or get_facility_info query, return GeoJSON of the facilities found.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_geojson.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_get_info_clusters": {
+            "main": "./lib/actions/get_echo_rest_services_get_info_clusters.js",
+            "title": "Combined ECHO Info Clusters Service",
+            "description": "Based on the QID obtained from a clustered get_facility_info query, download cluster facility information as either a CSV or GEOJSON file.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_info_clusters.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_info_clusters": {
+            "main": "./lib/actions/post_echo_rest_services_get_info_clusters.js",
+            "title": "Combined ECHO Info Clusters Service",
+            "description": "Based on the QID obtained from a clustered get_facility_info query, download cluster facility information as either a CSV or GEOJSON file.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_info_clusters.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_get_map": {
+            "main": "./lib/actions/get_echo_rest_services_get_map.js",
+            "title": "Combined ECHO Map Service",
+            "description": "The purpose of the GET_MAP service is to display facility coordinates and facility clusters related to a get_facilities facility query. Currently, the maximum number of coordinates returned is 500. GET_MAP performs automatic clustering at the state, county, and zip code levels to maximize the number of coordinates returned.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_map.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_map": {
+            "main": "./lib/actions/post_echo_rest_services_get_map.js",
+            "title": "Combined ECHO Map Service",
+            "description": "The purpose of the GET_MAP service is to display facility coordinates and facility clusters related to a get_facilities facility query. Currently, the maximum number of coordinates returned is 500. GET_MAP performs automatic clustering at the state, county, and zip code levels to maximize the number of coordinates returned.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_map.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_get_qid": {
+            "main": "./lib/actions/get_echo_rest_services_get_qid.js",
+            "title": "Combined ECHO Paginated Results Service",
+            "description": "GET_QID is passed with a query ID corresponding to a previously run get_facilities query. It then returns a Facility object containing all matching facilities. The main purpose of GET_QID is for large querysets that contain multiple pages (responsesets) of output. GET_QID allows for pagination and for the selection and sorting of columns. ",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_get_qid.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_get_qid": {
+            "main": "./lib/actions/post_echo_rest_services_get_qid.js",
+            "title": "Combined ECHO Paginated Results Service",
+            "description": "GET_QID is passed with a query ID corresponding to a previously run get_facilities query. It then returns a Facility object containing all matching facilities. The main purpose of GET_QID is for large querysets that contain multiple pages (responsesets) of output. GET_QID allows for pagination and for the selection and sorting of columns. ",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_get_qid.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_echo_rest_services_metadata": {
+            "main": "./lib/actions/get_echo_rest_services_metadata.js",
+            "title": "Combined ECHO Metadata Service",
+            "description": "Returns the JSON Object Name and ColumnId for usage with the qcolumns parameter for get_qid, get_facility_info and other service endpoints.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_echo_rest_services_metadata.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_echo_rest_services_metadata": {
+            "main": "./lib/actions/post_echo_rest_services_metadata.js",
+            "title": "Combined ECHO Metadata Service",
+            "description": "Returns the JSON Object Name and ColumnId for usage with the qcolumns parameter for get_qid, get_facility_info and other service endpoints.",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_echo_rest_services_metadata.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}
